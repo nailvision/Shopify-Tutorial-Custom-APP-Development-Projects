@@ -1,0 +1,121 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<body>
+<header>
+    
+</header>
+<div style="border: 1px solid; padding: 2px; margin: 2px;">
+    <h1>Update Product Title by ID</h1>
+
+    <span>Sample Product id - 8088426447076</span><br><br><br>
+
+    <span><b>New Product id: </b></span>
+     <input type="text" id="productid"><br>
+
+    <span><b>New Product Title: </b></span>
+    <input type="text" id="productname"/><br><br>
+
+    <button onclick="updateProductTitlePut()">Submit</button>
+    <br/>
+
+
+    <span>Update response: </span><span id="updateresponse"></span>
+    <br/>
+    <span>Status: </span><span id="callresponse2"></span>
+    <br>
+    <br>
+</div>
+<div style="border: 1px solid; padding: 2px; margin: 2px;">
+    <h1>GET Product by ID </h1>
+
+    <input type="text" id="getproductid"/><br><br>
+    <button id="getproduct" onclick="getproduct()">Get Product </button><br>
+    <span>Product Info: </span><span id="productdata"></span>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+
+    function getproduct() {
+        var productid = $("#getproductid").val();
+        console.log("productid " + productid);
+
+        var finalUrl = 'http://localhost:8080/shopifyget/'+productid;
+        console.log("Final url - " + finalUrl);
+
+        $.ajax({ 
+            type: 'GET', 
+            cors:true,
+            url: finalUrl,
+            success: function(response) { 
+                console.log(response);
+                var responsestring = JSON.stringify(response);
+                //const parsedData = JSON.parse(JSON.stringify(response)); 
+                console.log("Response - " + responsestring);
+                $("#productdata").text(responsestring);
+                
+            }, 
+            error: function(xhr, status, error) { 
+                // Handle any errors 
+            } 
+        });
+    }
+
+    function updateProductTitlePut() {
+        //alert("hi i am called");
+
+        var productid = $("#productid").val();
+        var productname = $("#productname").val();
+        console.log(productid + "  -  " + productname);
+
+        var sendInfo = {
+              "id": productid,
+              "title": productname
+            };
+
+        $.ajax({ 
+            type: 'PUT', 
+            url: 'http://localhost:8080/shopifyput',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(sendInfo),
+            success: function(response) { 
+                console.log(response);
+                var responsestring = JSON.stringify(response);
+                //const parsedData = JSON.parse(JSON.stringify(response)); 
+                //console.log(parsedData);
+                console.log(responsestring);
+                $("#updateresponse").text(responsestring);
+                
+            }, 
+            error: function(xhr, status, error) { 
+                // Handle any errors 
+            } 
+        });
+    }
+
+    
+
+    function validateUser() {
+        const username = $("#username").val();
+        console.log("username to validate " + username);
+        var saveData = $.ajax({
+              type: 'POST',
+              url: "https://5871ac4f52474668b00c23833efd4f2f.api.mockbin.io",
+              data: { username },
+              dataType: "text",
+              success: function(resultData) { 
+                console.log("Response - " + resultData);
+                const parsedData = JSON.parse(resultData); 
+                alert(parsedData);
+                console.log(parsedData);
+                //$("#userstatus").text(parsedData.status);
+
+            }
+        });
+    }   
+
+   
+</script>
+</body>
+</html>
