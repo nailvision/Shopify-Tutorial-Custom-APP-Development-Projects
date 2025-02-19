@@ -3,5 +3,4 @@ export declare class AppService {
     private httpService;
     constructor(httpService: HttpService);
     getHello(): string;
-    getProduct(productId: String): Promise<any>;
 }

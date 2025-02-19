@@ -19,20 +19,6 @@ let AppService = class AppService {
     getHello() {
         return 'Hello World!';
     }
-    async getProduct(productId) {
-        console.log("i am in service");
-        const productResponse = this.httpService.get(`https://quickstart-d769e77e.myshopify.com/admin/api/2024-01/products/7395755884626.json`, {
-            headers: {
-                'X-Shopify-Access-Token': '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'
-            }
-        });
-        console.log(JSON.stringify(productResponse));
-        console.log(JSON.stringify(productResponse));
-        console.log("Product Response - " + productResponse);
-        console.log("Product Response2 - " + productResponse);
-        console.log("Product Response3 - " + productResponse);
-        return productResponse;
-    }
 };
 exports.AppService = AppService;
 exports.AppService = AppService = __decorate([

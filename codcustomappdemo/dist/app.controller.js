@@ -21,14 +21,14 @@ let AppController = class AppController {
     constructor(configService, httpService) {
         this.configService = configService;
         this.httpService = httpService;
-        this.global_access_token = "";
+        this.global_access_token = '';
     }
     async init(query) {
-        console.log("i am in init");
+        console.log('i am in init');
         const myres = {
             url: `https://${query.shop}/admin/oauth/authorize?client_id=${this.configService.get('shopify.appProxy.clientId')}&scope=${this.configService
                 .get('shopify.appProxy.scopes')
-                .join(',')}&redirect_uri=${this.configService.get('apiUrl')}/shopify-oauth/redirect&state={nonce}&grant_options[]={access_mode}`
+                .join(',')}&redirect_uri=${this.configService.get('apiUrl')}/shopify-oauth/redirect&state={nonce}&grant_options[]={access_mode}`,
         };
         console.log(myres);
         return myres;
@@ -38,24 +38,27 @@ let AppController = class AppController {
         const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`https://${query.shop}/admin/oauth/access_token`, {
             client_id: this.configService.get('shopify.appProxy.clientId'),
             client_secret: this.configService.get('shopify.appProxy.clientSecret'),
-            code: query.code
+            code: query.code,
         }));
-        console.log("Token Response - " + String(response.data));
-        console.log("Token Response2 - " + response.data.access_token);
+        console.log('Token Response - ' + String(response.data));
+        console.log('Token Response2 - ' + response.data.access_token);
         this.global_access_token = response.data.access_token;
         return {
-            url: `https://${query.shop}/admin/apps?shop=${query.shop}`
+            url: `https://${query.shop}/admin/apps?shop=${query.shop}`,
         };
     }
     async getProduct(query) {
-        console.log('Fetching product from shopify shore ' + query.store + ' with   Product id' + query.productid);
-        const productResponse = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`https://codcustomappdemo.myshopify.com/admin/api/2024-01/products/8479719555203.json`, {
+        console.log('Fetching product from shopify shore ' +
+            query.store +
+            ' with   Product id' +
+            query.productid);
+        const productResponse = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`https://<storename>/admin/api/2024-01/products/8479719555203.json`, {
             headers: {
-                'X-Shopify-Access-Token': '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'
-            }
+                'X-Shopify-Access-Token': '<shopify store access token>',
+            },
         }));
-        console.log("Product Response2 - " + productResponse.data.product);
-        console.log("Product Response - " + JSON.stringify(productResponse.data));
+        console.log('Product Response2 - ' + productResponse.data.product);
+        console.log('Product Response - ' + JSON.stringify(productResponse.data));
         const productData = JSON.stringify(productResponse.data);
         return productData;
     }

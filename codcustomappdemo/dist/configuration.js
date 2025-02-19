@@ -15,8 +15,8 @@ exports.default = () => ({
                 'read_orders',
                 'write_orders',
                 'write_products',
-                'read_products'
-            ]
+                'read_products',
+            ],
         },
     },
 });
