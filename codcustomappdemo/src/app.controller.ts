@@ -54,6 +54,33 @@ export class AppController {
     };
   }
 
+  @Get('getproducts')
+  async getProducts(@Query() query: any): Promise<any> {
+    console.log(
+      'Fetching product from shopify shore ' +
+        query.store +
+        ' for all products',
+    );
+
+    const productResponse = await lastValueFrom(
+      this.httpService.get(
+        `https://38f412.myshopify.com/admin/api/2024-01/products.json`,
+        {
+          headers: {
+            'X-Shopify-Access-Token': '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',
+          },
+        },
+      ),
+    );
+
+    console.log('Products Response2 - ' + productResponse.data);
+    console.log('Products Response - ' + JSON.stringify(productResponse.data));
+
+    const productData = JSON.stringify(productResponse.data);
+
+    return productData;
+  }
+
   @Get('getproduct')
   async getProduct(@Query() query: any): Promise<any> {
     console.log(
@@ -65,10 +92,10 @@ export class AppController {
 
     const productResponse = await lastValueFrom(
       this.httpService.get(
-        `https://<storename>/admin/api/2024-01/products/8479719555203.json`,
+        `https://38f412.myshopify.com/admin/api/2024-01/products/8753851072853.json`,
         {
           headers: {
-            'X-Shopify-Access-Token': '<shopify store access token>',
+            'X-Shopify-Access-Token': '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',
           },
         },
       ),
